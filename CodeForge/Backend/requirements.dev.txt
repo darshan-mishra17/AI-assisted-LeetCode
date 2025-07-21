@@ -1,0 +1,19 @@
+# Development dependencies
+pytest==7.4.0
+pytest-asyncio==0.21.1
+httpx==0.25.2
+black==23.7.0
+flake8==6.0.0
+isort==5.12.0
+mypy==1.5.1
+
+# Additional testing tools
+faker==19.3.0
+factory-boy==3.3.0
+
+# Documentation
+mkdocs==1.5.0
+mkdocs-material==9.1.21
+
+# Database tools
+pymongo-migrate==0.11.0
