@@ -1,7 +1,7 @@
 from pydantic import BaseModel, EmailStr, Field
 from typing import Optional, List, Dict, Any
 from datetime import datetime
-from models.models import UserRole, ProblemDifficulty, SubmissionStatus, UserStats
+from ..models.models import UserRole, ProblemDifficulty, SubmissionStatus, UserStats
 
 # Auth Schemas
 class UserSignup(BaseModel):

@@ -93,7 +93,7 @@ async def health_check():
     """Health check endpoint"""
     try:
         # Try to ping MongoDB
-        from database import database
+        from .database import database
         if database.client:
             await database.client.admin.command('ping')
             db_status = "connected"
