@@ -45,26 +45,13 @@ app = FastAPI(
     lifespan=lifespan
 )
 
-# Configure CORS - Production ready with forced frontend origin
-origins = os.getenv("ALLOWED_ORIGINS", "").split(",")
-frontend_origins = [
-    "https://ai-assisted-leet-code.vercel.app",  # Your frontend domain
-    "http://localhost:5173", 
-    "http://127.0.0.1:5173",
-    "http://localhost:3000",
-    "http://127.0.0.1:3000"
-]
-
-if origins and origins[0]:  # If environment variable is set, add to frontend origins
-    frontend_origins.extend([origin.strip() for origin in origins])
-
-# Always allow CORS for your domains
+# Configure CORS - BULLETPROOF CORS CONFIGURATION
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=frontend_origins,
-    allow_credentials=True,
-    allow_methods=["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
-    allow_headers=["*"],
+    allow_origins=["*"],  # Allow all origins temporarily to stop CORS issues
+    allow_credentials=False,  # Must be False when using allow_origins=["*"]
+    allow_methods=["*"],  # Allow all methods
+    allow_headers=["*"],  # Allow all headers
 )
 
 # Include routers
@@ -93,17 +80,7 @@ async def root():
 @app.get("/cors-test")
 async def cors_test():
     """Simple endpoint to test CORS configuration"""
-    return {"message": "CORS is working!", "timestamp": "2025-07-22", "status": "success", "frontend_allowed": "ai-assisted-leet-code.vercel.app"}
-
-@app.options("/ai/{path:path}")
-async def ai_options_handler(path: str):
-    """Handle preflight OPTIONS requests for AI endpoints"""
-    return {"message": "OPTIONS allowed"}
-
-@app.options("/{path:path}")
-async def options_handler(path: str):
-    """Handle all preflight OPTIONS requests"""
-    return {"message": "OPTIONS allowed"}
+    return {"message": "CORS is working!", "timestamp": "2025-07-22", "status": "success"}
 
 # Health check endpoint
 @app.get("/health")
