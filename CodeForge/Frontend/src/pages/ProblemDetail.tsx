@@ -7,7 +7,8 @@ import {
   Settings,
   ArrowLeft,
   CheckCircle,
-  XCircle
+  XCircle,
+  Bot
 } from 'lucide-react';
 import AIMentorSidebar from '../components/AIMentorSidebar';
 import { apiService, Problem } from '../services/api';
@@ -347,9 +348,14 @@ public:
               
               <button
                 onClick={() => setShowAIMentor(!showAIMentor)}
-                className="p-2 hover:bg-gray-700 rounded transition-colors"
+                className={`flex items-center space-x-2 px-3 py-2 rounded transition-colors ${
+                  showAIMentor 
+                    ? 'bg-purple-600 hover:bg-purple-700 text-white' 
+                    : 'bg-gray-700 hover:bg-gray-600 text-white'
+                }`}
               >
-                <Settings className="h-5 w-5 text-white" />
+                <Bot className="h-4 w-4" />
+                <span className="text-sm font-medium">AI Mentor</span>
               </button>
             </div>
 
@@ -509,6 +515,14 @@ public:
         <AIMentorSidebar 
           isOpen={showAIMentor}
           onClose={() => setShowAIMentor(false)}
+          currentProblem={{
+            id: problem._id,
+            title: problem.title,
+            difficulty: problem.difficulty,
+            description: problem.description
+          }}
+          userCode={code}
+          language={language}
         />
       )}
     </div>

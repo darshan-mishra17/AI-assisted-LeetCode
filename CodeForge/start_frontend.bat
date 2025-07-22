@@ -1,6 +1,6 @@
 @echo off
 echo Starting CodeForge Frontend Server...
-cd /d "C:\Users\HP\OneDrive\Desktop\CodeForge\Frontend"
+cd /d "C:\Users\HP\OneDrive\Desktop\CodeForge\AI-assisted-LeetCode\CodeForge\Frontend"
 
 echo Installing dependencies (if needed)...
 call npm install

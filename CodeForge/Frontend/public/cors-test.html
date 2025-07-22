@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CORS Test</title>
+</head>
+<body>
+    <h1>CORS Test</h1>
+    <button onclick="testCORS()">Test CORS</button>
+    <div id="result"></div>
+
+    <script>
+        async function testCORS() {
+            const resultDiv = document.getElementById('result');
+            
+            try {
+                console.log('Testing CORS to http://127.0.0.1:8000/cors-test');
+                resultDiv.innerHTML = 'Testing...';
+                
+                const response = await fetch('http://127.0.0.1:8000/cors-test', {
+                    method: 'GET',
+                    mode: 'cors',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    resultDiv.innerHTML = `<p style="color: green;">✅ CORS Success!</p><pre>${JSON.stringify(data, null, 2)}</pre>`;
+                } else {
+                    resultDiv.innerHTML = `<p style="color: orange;">❌ Response not OK: ${response.status}</p>`;
+                }
+            } catch (error) {
+                console.error('CORS Error:', error);
+                resultDiv.innerHTML = `<p style="color: red;">❌ CORS Failed: ${error.message}</p>`;
+            }
+        }
+    </script>
+</body>
+</html>
