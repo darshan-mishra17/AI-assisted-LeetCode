@@ -91,10 +91,53 @@ async def get_hint(
     try:
         problems_collection = await get_collection("problems")
         
-        # Get problem details
-        problem_data = await problems_collection.find_one({"_id": ObjectId(request.problem_id)})
+        # Get problem details - handle both ObjectId and simple string IDs
+        try:
+            # First try as ObjectId
+            problem_data = await problems_collection.find_one({"_id": ObjectId(request.problem_id)})
+        except:
+            # If ObjectId fails, try as simple integer or string
+            problem_data = await problems_collection.find_one({
+                "$or": [
+                    {"id": request.problem_id},
+                    {"id": int(request.problem_id) if request.problem_id.isdigit() else request.problem_id},
+                    {"problem_id": request.problem_id}
+                ]
+            })
+            
         if not problem_data:
-            raise HTTPException(status_code=404, detail="Problem not found")
+            # If problem not found, create a generic response without database lookup
+            if not ai_mentor:
+                return EnhancedAIHintResponse(
+                    hint=f"For this {request.language} problem, consider breaking it down into smaller components. Look at the data structures you're using and think about whether there's a more efficient approach. Focus on understanding the problem pattern first.",
+                    confidence_score=0.7,
+                    suggested_next_steps=[
+                        "Identify the main algorithm pattern (e.g., two pointers, sliding window, DFS/BFS)",
+                        "Choose the most appropriate data structure for efficiency",
+                        "Consider edge cases and input validation",
+                        "Analyze time and space complexity"
+                    ],
+                    follow_up_questions=[
+                        "What's the time complexity of your current approach?",
+                        "Are there any edge cases you haven't considered?",
+                        "Could a different data structure improve performance?"
+                    ],
+                    learning_resources=[
+                        {"title": "Algorithm Patterns", "url": "https://leetcode.com/explore/"},
+                        {"title": "Data Structures Guide", "url": "https://leetcode.com/explore/"}
+                    ],
+                    estimated_completion_time="15-30 minutes"
+                )
+            else:
+                # Use AI with generic problem context
+                result = await ai_mentor.get_personalized_hint(
+                    problem_description="Coding problem requiring algorithmic solution",
+                    user_code=request.user_code,
+                    language=request.language,
+                    hint_type=request.hint_type,
+                    user_level="intermediate"
+                )
+                return EnhancedAIHintResponse(**result)
         
         problem_description = problem_data.get("description", "")
         
@@ -130,7 +173,7 @@ async def get_hint(
             problem_description=problem_description,
             user_code=request.user_code,
             language=request.language,
-            user_id=str(current_user.id),
+            user_id="anonymous",  # Since no authentication required
             hint_level=request.hint_type  # Map hint_type to hint_level
         )
         
@@ -364,7 +407,7 @@ async def create_learning_path(
         
         # Use advanced AI mentor
         result = await ai_mentor.create_learning_path(
-            user_id=str(current_user.id),
+            user_id="anonymous",  # Since no authentication required
             current_problem_id=request.current_problem_id,
             user_strengths=request.user_strengths,
             user_weaknesses=request.user_weaknesses
