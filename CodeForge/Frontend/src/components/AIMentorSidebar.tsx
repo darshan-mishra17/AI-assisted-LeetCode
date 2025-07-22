@@ -51,32 +51,57 @@ const AIMentorSidebar: React.FC<AIMentorSidebarProps> = ({
       let endpoint = '';
       let payload: any = {
         problem_id: currentProblem.id,
-        problem_title: currentProblem.title,
-        problem_description: currentProblem.description,
         user_code: userCode,
-        language: language
+        language: language,
+        hint_type: 'explanation'
       };
 
       switch (type) {
         case 'hint':
           endpoint = '/ai/hint';
+          payload.hint_type = 'hint';
           break;
         case 'analyze':
           endpoint = '/ai/analyze';
+          // For analyze endpoint, use different payload structure
+          payload = {
+            code: userCode,
+            language: language,
+            problem_description: currentProblem.description
+          };
           break;
         case 'explain':
           endpoint = '/ai/explain-concept';
-          payload.concept = message || 'current problem approach';
+          // For explain endpoint
+          payload = {
+            concept: message || 'current problem approach',
+            user_level: 'intermediate',
+            include_examples: true,
+            programming_language: language
+          };
           break;
         case 'debug':
           endpoint = '/ai/debug';
+          // For debug endpoint
+          payload = {
+            code: userCode,
+            language: language,
+            error_message: message || 'Code debugging needed',
+            expected_behavior: 'Correct algorithm implementation'
+          };
           break;
         case 'learning-path':
           endpoint = '/ai/learning-path';
+          // For learning path endpoint
+          payload = {
+            current_problem_id: currentProblem.id,
+            user_strengths: ['problem-solving'],
+            user_weaknesses: ['optimization']
+          };
           break;
         default:
           endpoint = '/ai/hint'; // Default to hint for chat
-          payload.query = message;
+          payload.hint_type = 'explanation';
       }
 
       const response = await fetch(`${API_BASE}${endpoint}`, {
