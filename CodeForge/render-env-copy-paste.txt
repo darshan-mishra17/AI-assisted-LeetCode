@@ -1,0 +1,17 @@
+MONGODB_URL=mongodb+srv://hardikpandu123654:QwertyuioP1234@cluster0.cisbozq.mongodb.net/codeforge
+DATABASE_NAME=codeforge
+SECRET_KEY=your-super-secret-key-change-this-in-production-render-2025
+ALGORITHM=HS256
+ACCESS_TOKEN_EXPIRE_MINUTES=30
+ENVIRONMENT=production
+PORT=8000
+GROQ_API_KEY=your-groq-api-key-here
+AI_MODEL=llama-3.1-8b-instant
+JUDGE0_API_URL=https://judge0-ce.p.rapidapi.com
+JUDGE0_API_KEY=your-judge0-api-key-here
+AI_MENTOR_MODEL=llama-3.1-8b-instant
+AI_MENTOR_TEMPERATURE=0.1
+AI_MENTOR_MAX_TOKENS=4096
+ENABLE_ADVANCED_AI=true
+ENABLE_CONVERSATION_HISTORY=true
+ALLOWED_ORIGINS=https://ai-assisted-leet-code.vercel.app,https://ai-assisted-leetcode.vercel.app,https://localhost:5173

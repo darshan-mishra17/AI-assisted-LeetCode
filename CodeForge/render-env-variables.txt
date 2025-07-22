@@ -1,0 +1,60 @@
+# ==============================================================================
+# RENDER DEPLOYMENT ENVIRONMENT VARIABLES - CodeForge Backend
+# ==============================================================================
+# Copy these environment variables to your Render dashboard
+# Environment > Add Environment Variable
+
+# ==============================================================================
+# DATABASE CONFIGURATION
+# ==============================================================================
+MONGODB_URL=mongodb+srv://hardikpandu123654:QwertyuioP1234@cluster0.cisbozq.mongodb.net/codeforge
+DATABASE_NAME=codeforge
+
+# ==============================================================================
+# JWT AUTHENTICATION
+# ==============================================================================
+SECRET_KEY=your-super-secret-key-change-this-in-production-render-2025
+ALGORITHM=HS256
+ACCESS_TOKEN_EXPIRE_MINUTES=30
+
+# ==============================================================================
+# DEPLOYMENT ENVIRONMENT
+# ==============================================================================
+ENVIRONMENT=production
+PORT=8000
+
+# ==============================================================================
+# CORS CONFIGURATION FOR PRODUCTION
+# ==============================================================================
+# Updated with your actual Vercel frontend URL
+ALLOWED_ORIGINS=https://ai-assisted-leet-code.vercel.app,https://localhost:5173
+
+# ==============================================================================
+# CODE EXECUTION SERVICE (Judge0) - REPLACE WITH YOUR API KEY
+# ==============================================================================
+JUDGE0_API_URL=https://judge0-ce.p.rapidapi.com
+JUDGE0_API_KEY=your-judge0-api-key-here
+
+# ==============================================================================
+# AI SERVICES (GROQ) - REPLACE WITH YOUR API KEY
+# ==============================================================================
+GROQ_API_KEY=your-groq-api-key-here
+AI_MODEL=llama-3.1-8b-instant
+AI_MENTOR_MODEL=llama-3.1-8b-instant
+AI_MENTOR_TEMPERATURE=0.1
+AI_MENTOR_MAX_TOKENS=4096
+
+# ==============================================================================
+# OPTIONAL: ADVANCED AI FEATURES
+# ==============================================================================
+AI_MENTOR_MEMORY_SIZE=10
+ENABLE_ADVANCED_AI=true
+ENABLE_VECTOR_SEARCH=false
+ENABLE_CONVERSATION_HISTORY=true
+ENABLE_PERSONALIZATION=true
+
+# ==============================================================================
+# OPTIONAL: ADDITIONAL AI SERVICES
+# ==============================================================================
+# OPENAI_API_KEY=your_openai_api_key_here
+# CHROMADB_PATH=./chroma_db

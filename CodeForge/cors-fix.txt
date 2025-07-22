@@ -1,0 +1,1 @@
+ALLOWED_ORIGINS=https://ai-assisted-leet-code.vercel.app,https://ai-assisted-leetcode.vercel.app,https://localhost:5173,*

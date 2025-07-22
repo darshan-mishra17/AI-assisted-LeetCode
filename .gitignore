@@ -6,6 +6,10 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 
+# Secret API keys - DO NOT COMMIT
+SECRET_API_KEYS_LOCAL_ONLY.txt
+**/SECRET_API_KEYS_LOCAL_ONLY.txt
+
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 

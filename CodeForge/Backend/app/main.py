@@ -45,20 +45,31 @@ app = FastAPI(
     lifespan=lifespan
 )
 
-# Configure CORS - Development setup
-# Force development CORS settings for localhost:5173
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=[
-        "http://localhost:5173", 
-        "http://127.0.0.1:5173",
-        "http://localhost:3000",  # Alternative ports
-        "http://127.0.0.1:3000"
-    ],
-    allow_credentials=True,
-    allow_methods=["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
-    allow_headers=["*"],
-)
+# Configure CORS - Production ready
+origins = os.getenv("ALLOWED_ORIGINS", "").split(",")
+if origins and origins[0]:  # If environment variable is set
+    # Production CORS - use environment variable
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=[origin.strip() for origin in origins],
+        allow_credentials=True,
+        allow_methods=["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+        allow_headers=["*"],
+    )
+else:
+    # Development fallback
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=[
+            "http://localhost:5173", 
+            "http://127.0.0.1:5173",
+            "http://localhost:3000",
+            "http://127.0.0.1:3000"
+        ],
+        allow_credentials=True,
+        allow_methods=["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+        allow_headers=["*"],
+    )
 
 # Include routers
 app.include_router(auth.router)

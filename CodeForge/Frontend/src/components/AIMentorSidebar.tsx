@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { X, Send, Bot, Lightbulb, Bug, BookOpen, Route } from 'lucide-react';
+import API_BASE_URL from '../config/api';
 
 interface AIMentorSidebarProps {
   isOpen: boolean;
@@ -31,7 +32,7 @@ const AIMentorSidebar: React.FC<AIMentorSidebarProps> = ({
   const [inputMessage, setInputMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  const API_BASE = 'http://127.0.0.1:8000';
+  const API_BASE = API_BASE_URL; // Use the configured API URL
 
   const sendMessage = async (message: string, type: 'chat' | 'hint' | 'analyze' | 'explain' | 'debug' | 'learning-path' = 'chat') => {
     if (!message.trim() && type === 'chat') return;
