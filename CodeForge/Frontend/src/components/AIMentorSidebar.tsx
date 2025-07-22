@@ -49,30 +49,28 @@ const AIMentorSidebar: React.FC<AIMentorSidebarProps> = ({
 
     try {
       let endpoint = '';
-      let payload: any = {
-        problem_id: currentProblem.id,
-        user_code: userCode,
-        language: language,
-        hint_type: 'explanation'
-      };
+      let payload: any;
 
       switch (type) {
         case 'hint':
           endpoint = '/ai/hint';
-          payload.hint_type = 'hint';
+          payload = {
+            problem_id: currentProblem.id,
+            user_code: userCode || '// Your solution here',
+            language: language,
+            hint_type: 'hint'
+          };
           break;
         case 'analyze':
           endpoint = '/ai/analyze';
-          // For analyze endpoint, use different payload structure
           payload = {
-            code: userCode,
+            code: userCode || '// Your solution here',
             language: language,
             problem_description: currentProblem.description
           };
           break;
         case 'explain':
           endpoint = '/ai/explain-concept';
-          // For explain endpoint
           payload = {
             concept: message || 'current problem approach',
             user_level: 'intermediate',
@@ -82,9 +80,8 @@ const AIMentorSidebar: React.FC<AIMentorSidebarProps> = ({
           break;
         case 'debug':
           endpoint = '/ai/debug';
-          // For debug endpoint
           payload = {
-            code: userCode,
+            code: userCode || '// Your solution here',
             language: language,
             error_message: message || 'Code debugging needed',
             expected_behavior: 'Correct algorithm implementation'
@@ -92,7 +89,6 @@ const AIMentorSidebar: React.FC<AIMentorSidebarProps> = ({
           break;
         case 'learning-path':
           endpoint = '/ai/learning-path';
-          // For learning path endpoint
           payload = {
             current_problem_id: currentProblem.id,
             user_strengths: ['problem-solving'],
@@ -100,8 +96,13 @@ const AIMentorSidebar: React.FC<AIMentorSidebarProps> = ({
           };
           break;
         default:
-          endpoint = '/ai/hint'; // Default to hint for chat
-          payload.hint_type = 'explanation';
+          endpoint = '/ai/hint';
+          payload = {
+            problem_id: currentProblem.id,
+            user_code: userCode || '// Your solution here',
+            language: language,
+            hint_type: 'explanation'
+          };
       }
 
       const response = await fetch(`${API_BASE}${endpoint}`, {
@@ -120,7 +121,7 @@ const AIMentorSidebar: React.FC<AIMentorSidebarProps> = ({
       
       const aiMessage: Message = {
         type: 'ai',
-        content: data.response || data.hint || data.analysis || data.explanation || data.debug_suggestion || data.learning_path || 'Sorry, I couldn\'t process your request.',
+        content: data.hint || data.analysis || data.explanation || data.debug_analysis || data.learning_path || data.response || 'Sorry, I couldn\'t process your request.',
         timestamp: new Date()
       };
 
