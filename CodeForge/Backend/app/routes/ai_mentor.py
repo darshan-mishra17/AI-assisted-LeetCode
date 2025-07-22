@@ -131,13 +131,19 @@ async def get_hint(
             else:
                 # Use AI with generic problem context
                 result = await ai_mentor.get_personalized_hint(
+                    problem_title="Coding Problem",
                     problem_description="Coding problem requiring algorithmic solution",
                     user_code=request.user_code,
-                    language=request.language,
-                    hint_type=request.hint_type,
                     user_level="intermediate"
                 )
-                return EnhancedAIHintResponse(**result)
+                return EnhancedAIHintResponse(
+                    hint=result.get("hint", "Unable to generate hint"),
+                    confidence_score=0.8,
+                    suggested_next_steps=["Review the problem", "Think about the approach"],
+                    follow_up_questions=["What's your current approach?"],
+                    learning_resources=[{"title": "Algorithm Guide", "url": ""}],
+                    estimated_completion_time="15 minutes"
+                )
         
         problem_description = problem_data.get("description", "")
         
@@ -170,14 +176,20 @@ async def get_hint(
         
         # Use advanced AI mentor
         result = await ai_mentor.get_personalized_hint(
+            problem_title="Coding Problem",
             problem_description=problem_description,
             user_code=request.user_code,
-            language=request.language,
-            user_id="anonymous",  # Since no authentication required
-            hint_level=request.hint_type  # Map hint_type to hint_level
+            user_level="intermediate"
         )
         
-        return EnhancedAIHintResponse(**result)
+        return EnhancedAIHintResponse(
+            hint=result.get("hint", "Unable to generate hint"),
+            confidence_score=0.8,
+            suggested_next_steps=["Review the problem", "Think about the approach"],
+            follow_up_questions=["What's your current approach?"],
+            learning_resources=[{"title": "Algorithm Guide", "url": ""}],
+            estimated_completion_time="15 minutes"
+        )
         
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to generate hint: {str(e)}")
@@ -406,14 +418,18 @@ async def create_learning_path(
             )
         
         # Use advanced AI mentor
-        result = await ai_mentor.create_learning_path(
-            user_id="anonymous",  # Since no authentication required
-            current_problem_id=request.current_problem_id,
-            user_strengths=request.user_strengths,
-            user_weaknesses=request.user_weaknesses
+        result = await ai_mentor.get_learning_path(
+            current_skills=request.user_strengths,
+            target_goal="Master this problem type"
         )
         
-        return LearningPathResponse(**result)
+        return LearningPathResponse(
+            learning_path=result.get("learning_path", "Custom learning path"),
+            estimated_duration="4 weeks",
+            difficulty_progression=["Easy", "Medium", "Hard"],
+            checkpoint_problems=[],
+            success_metrics={}
+        )
         
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to create learning path: {str(e)}")
