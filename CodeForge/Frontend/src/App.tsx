@@ -9,7 +9,7 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Dashboard from './pages/Dashboard';
 import Problems from './pages/Problems';
-import ProblemDetail from './pages/ProblemDetail_fixed';
+import ProblemDetail from './pages/ProblemDetail';
 import Compete from './pages/Compete';
 import Forum from './pages/Forum';
 
