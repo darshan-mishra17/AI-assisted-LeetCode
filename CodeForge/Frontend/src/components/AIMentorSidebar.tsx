@@ -55,9 +55,9 @@ const AIMentorSidebar: React.FC<AIMentorSidebarProps> = ({
         case 'hint':
           endpoint = '/ai/hint';
           payload = {
-            problem_id: currentProblem.id,
+            problem_id: String(currentProblem.id || '1'),
             user_code: userCode || '// Your solution here',
-            language: language,
+            language: language || 'python',
             hint_type: 'hint'
           };
           break;
@@ -65,8 +65,8 @@ const AIMentorSidebar: React.FC<AIMentorSidebarProps> = ({
           endpoint = '/ai/analyze';
           payload = {
             code: userCode || '// Your solution here',
-            language: language,
-            problem_description: currentProblem.description
+            language: language || 'python',
+            problem_description: currentProblem.description || 'Algorithm problem'
           };
           break;
         case 'explain':
@@ -75,14 +75,14 @@ const AIMentorSidebar: React.FC<AIMentorSidebarProps> = ({
             concept: message || 'current problem approach',
             user_level: 'intermediate',
             include_examples: true,
-            programming_language: language
+            programming_language: language || 'python'
           };
           break;
         case 'debug':
           endpoint = '/ai/debug';
           payload = {
             code: userCode || '// Your solution here',
-            language: language,
+            language: language || 'python',
             error_message: message || 'Code debugging needed',
             expected_behavior: 'Correct algorithm implementation'
           };
@@ -90,7 +90,7 @@ const AIMentorSidebar: React.FC<AIMentorSidebarProps> = ({
         case 'learning-path':
           endpoint = '/ai/learning-path';
           payload = {
-            current_problem_id: currentProblem.id,
+            current_problem_id: String(currentProblem.id || '1'),
             user_strengths: ['problem-solving'],
             user_weaknesses: ['optimization']
           };
@@ -98,9 +98,9 @@ const AIMentorSidebar: React.FC<AIMentorSidebarProps> = ({
         default:
           endpoint = '/ai/hint';
           payload = {
-            problem_id: currentProblem.id,
+            problem_id: String(currentProblem.id || '1'),
             user_code: userCode || '// Your solution here',
-            language: language,
+            language: language || 'python',
             hint_type: 'explanation'
           };
       }
