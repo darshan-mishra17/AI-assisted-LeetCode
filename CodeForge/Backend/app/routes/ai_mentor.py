@@ -85,8 +85,7 @@ class EnhancedAIHintResponse(BaseModel):
 
 @router.post("/hint", response_model=EnhancedAIHintResponse)
 async def get_hint(
-    request: AIHintRequest,
-    current_user: User = Depends(get_current_active_user)
+    request: AIHintRequest
 ):
     """Get AI-powered personalized hints for coding problems"""
     try:
@@ -142,8 +141,7 @@ async def get_hint(
 
 @router.post("/analyze", response_model=CodeAnalysisResponse)
 async def analyze_code(
-    request: CodeAnalysisRequest,
-    current_user: User = Depends(get_current_active_user)
+    request: CodeAnalysisRequest
 ):
     """Comprehensive code quality analysis with optimization suggestions"""
     try:
@@ -198,8 +196,7 @@ async def analyze_code(
 
 @router.post("/explain-concept", response_model=ConceptExplanationResponse)
 async def explain_concept(
-    request: ConceptExplanationRequest,
-    current_user: User = Depends(get_current_active_user)
+    request: ConceptExplanationRequest
 ):
     """Get detailed explanation of programming concepts with examples"""
     try:
@@ -249,8 +246,7 @@ async def explain_concept(
 
 @router.post("/debug", response_model=DebugResponse)
 async def debug_code(
-    request: DebugRequest,
-    current_user: User = Depends(get_current_active_user)
+    request: DebugRequest
 ):
     """Advanced debugging assistance with step-by-step guidance"""
     try:
@@ -316,8 +312,7 @@ async def debug_code(
 
 @router.post("/learning-path", response_model=LearningPathResponse)
 async def create_learning_path(
-    request: LearningPathRequest,
-    current_user: User = Depends(get_current_active_user)
+    request: LearningPathRequest
 ):
     """Create personalized learning path based on strengths and weaknesses"""
     try:
@@ -385,8 +380,7 @@ async def create_learning_path(
 async def explain_code(
     problem_id: str,
     code: str,
-    language: str,
-    current_user: User = Depends(get_current_active_user)
+    language: str
 ):
     """Legacy endpoint - Get code explanation from AI"""
     try:
@@ -444,8 +438,7 @@ async def explain_code(
 async def optimize_code(
     problem_id: str,
     code: str,
-    language: str,
-    current_user: User = Depends(get_current_active_user)
+    language: str
 ):
     """Legacy endpoint - Get code optimization suggestions from AI"""
     try:
